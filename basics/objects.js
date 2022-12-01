@@ -55,3 +55,39 @@ Phone1.printInfo();
 const person = {
   aboutMe() {},
 };
+
+const testObj = {
+  1: 'Prashant',
+};
+
+console.log(testObj['1']);
+
+const Person = {
+  name: 'Prashant',
+  age: 24,
+  educationHistory: [
+    {
+      id: 1,
+      name: 'Ikeda International School',
+      level: 'SLC',
+    },
+    {
+      id: 2,
+      name: 'Sagarmatha',
+      level: 'Bachelors',
+    },
+  ],
+  address: {
+    temporaryAddress: {
+      ward: '123',
+      municipality: 'abc',
+    },
+    permanentAddress: {
+      ward: '123',
+      municipality: 'abc',
+    },
+  },
+};
+
+console.log(Person.address.permanentAddress.municipality);
+console.log(Person.educationHistory.at(-1).name);
