@@ -1,11 +1,3 @@
-//const TODOS = [
-//{
-//id: 123,
-//value: 'Hello world',
-//completed: false,
-//},
-//];
-
 const TODOS = {
   123: {
     id: 123,
