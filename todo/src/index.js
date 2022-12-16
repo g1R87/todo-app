@@ -18,9 +18,6 @@ app.get('/health', (req, res) => {
 
 app.use('/api/v1', router);
 
-//app.use('*')
-//
-
 app.use((err, req, res, next) => {
   res
     .status(err.statusCode || 500)

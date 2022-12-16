@@ -1,11 +1,16 @@
+const todoSchema = require('../schema/todo');
 const createError = require('../utils/createError');
 
 const validateCreateTodo = (req, res, next) => {
-  if (req.body.task) {
-    next();
-  }
+  try {
+    const validationData = todoSchema.validateSync(req.body);
 
-  next(createError(400, 'Task not provided'));
+    console.log(validationData);
+
+    next();
+  } catch (error) {
+    next(createError(400, error.message));
+  }
 };
 
 module.exports = {
