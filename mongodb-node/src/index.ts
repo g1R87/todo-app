@@ -3,16 +3,33 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.$connect();
+  //const user = await prisma.user.findMany();
+  //console.log(user);
+  //
 
-  const user = await prisma.user.create({
-    data: {
-      name: 'Alice',
-      email: 'alice@prisma.io',
+  //const post = await prisma.post.create({
+  //data: {
+  //title: 'This is a new post',
+  //content: 'HELLO, THIS IS MY NEW BLOG POST',
+  //authorId: 1,
+  //},
+  //});
+
+  //const posts = await prisma.post.findMany();
+
+  //console.log(posts);
+
+  const usersWithPosts = await prisma.user.findMany({
+    include: {
+      posts: true,
     },
   });
 
-  //console.log(user);
+  usersWithPosts.forEach((user) => {
+    console.log(user.posts);
+  });
+
+  //console.dir(usersWithPosts, { depth: null });
 }
 
 main()
