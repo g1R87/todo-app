@@ -48,7 +48,10 @@ const oddNums = nums.filter(function (num) {
 });
 console.log(nums, oddNums);
 
+console.log('==========');
+
 /*
+  
  * create an array and add items from 1 to 5
  * create a new array in which the value is square of current value
  * create a new array in which the value is square root of current value
