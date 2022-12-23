@@ -1,9 +1,12 @@
-import { Request, Response, Router } from "express";
+import { Router } from "express";
+
+import { createUser, getUser, getUsers } from "../controllers/user";
+import { confirmPasswordValidation } from "../middlewares/user";
 
 const userRouter = Router();
 
-userRouter.get("/", (req: Request, res: Response) => {
-    res.send("Hello World!");
-});
+userRouter.get("/", getUsers);
+userRouter.get("/:id", getUser);
+userRouter.post("/", confirmPasswordValidation, createUser);
 
 export default userRouter
