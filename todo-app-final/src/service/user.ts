@@ -9,7 +9,6 @@ export const getAllUsers = async () => {
     }
 };
 
-
 export const getUser = async (id: number) => {
     try {
         const users = await prisma.user.findFirst({

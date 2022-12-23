@@ -1,12 +1,12 @@
 import { Router } from "express";
 
 import { createUser, getUser, getUsers } from "../controllers/user";
-import { confirmPasswordValidation } from "../middlewares/user";
+import { confirmPasswordValidation, validateUserRequest } from "../middlewares/user";
 
 const userRouter = Router();
 
 userRouter.get("/", getUsers);
 userRouter.get("/:id", getUser);
-userRouter.post("/", confirmPasswordValidation, createUser);
+userRouter.post("/", validateUserRequest, createUser);
 
 export default userRouter

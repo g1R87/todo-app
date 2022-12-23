@@ -1,4 +1,7 @@
 import { NextFunction, Request, Response } from "express";
+import userSchema from "../schema/user";
+import { createError } from "../utils/createError";
+
 
 export const confirmPasswordValidation = (req: Request, res: Response, next: NextFunction) => {
     const { password, confirmPassword } = req.body;
@@ -8,6 +11,15 @@ export const confirmPasswordValidation = (req: Request, res: Response, next: Nex
     }
 
     next();
+}
+
+export const validateUserRequest = (req:Request, res: Response, next: NextFunction) => {
+  try{
+    userSchema.validateSync(req.body);
+    next();
+  }catch(error: any){
+    next(createError(404, error.message));
+  }
 }
 
 

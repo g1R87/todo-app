@@ -1,4 +1,4 @@
-import yup from 'yup';
+import * as yup from 'yup';
 
 const userSchema = yup.object({
   name: yup
@@ -8,9 +8,8 @@ const userSchema = yup.object({
     .required('Name is required'),
   email: yup.string().email().required('E-mail is required'),
   password: yup.string().min(6, 'Password must be atleast 6 characters long'),
-  confirm_password: yup
+  confirmPassword: yup
     .string()
-    .label('confirm password')
     .required()
     .oneOf([yup.ref('password'), null], 'Passwords must match'),
 });
