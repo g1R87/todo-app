@@ -1,15 +1,20 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from 'express';
 
-export const confirmPasswordValidation = (req: Request, res: Response, next: NextFunction) => {
-    const { password, confirmPassword } = req.body;
+export const confirmPasswordValidation = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { password, confirmPassword } = req.body;
 
-    if (password !== confirmPassword) {
-        return res.status(400).json({ message: "Password and confirm password do not match" });
-    }
+  if (password !== confirmPassword) {
+    return res
+      .status(400)
+      .json({ message: 'Password and confirm password do not match' });
+  }
 
-    next();
-}
-
+  next();
+};
 
 /*
     @TODO - Sujan
