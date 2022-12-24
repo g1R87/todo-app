@@ -4,10 +4,9 @@
 generator client {
   provider = "prisma-client-js"
 }
-// url      = "postgresql://prashant:password@localhost:5432/todoapp"
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:56645484h@localhost:5432/todofinal"
+  url      = "postgresql://prashant:password@localhost:5432/todoapp"
 }
 
 model User {
