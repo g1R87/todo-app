@@ -30,3 +30,26 @@ export const createUser = async (req: Request, res: Response) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    const { name, email, password } = req.body;
+    const id = parseInt(req.params.id, 10);
+    const updateUser = await userService.updateUser(id, name, email, password);
+
+    res.status(201).json({ status: 'success', payload: updateUser });
+  } catch (error: any) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+    const deleteUser = await userService.deleteUser(id);
+
+    res.status(201).json({ status: 'success', payload: deleteUser });
+  } catch (error: any) {
+    res.status(404).json({ message: error.message });
+  }
+};
