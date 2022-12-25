@@ -2,30 +2,30 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 datasource db {
-  provider = "postgresql"
-  url      = "postgresql://prashant:password@localhost:5432/todoapp"
+    provider = "postgresql"
+    url      = "postgresql://prashant:password@localhost:5432/todoapp"
 }
 
 model User {
-  id        Int      @default(autoincrement()) @id
-  email     String   @unique
-  name      String?
-  posts     Post[]
-  password  String   @default("Hello")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    id        Int      @id @default(autoincrement())
+    email     String   @unique
+    name      String?
+    posts     Post[]
+    password  String   @default("Hello")
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Post {
-  id        Int      @default(autoincrement()) @id
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  published Boolean  @default(false)
-  title     String
-  content   String?
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    published Boolean  @default(false)
+    title     String
+    content   String?
+    author    User     @relation(fields: [authorId], references: [id])
+    authorId  Int
 }

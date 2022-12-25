@@ -45,3 +45,29 @@ export const createUser = async (
     throw new Error(error.message);
   }
 };
+
+export const updateUser = async (
+  id: number,
+  name: string,
+  email: string,
+  password: string
+) => {
+  try {
+    return await prisma.user.update({
+      where: { id },
+      data: { name, email, password },
+    });
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const deleteUser = async (id: number) => {
+  try {
+    await prisma.user.delete({
+      where: { id },
+    });
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
