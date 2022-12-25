@@ -3,14 +3,18 @@ import userSchema from "../schema/user";
 import { createError } from "../utils/createError";
 
 
-export const confirmPasswordValidation = (req: Request, res: Response, next: NextFunction) => {
-    const { password, confirmPassword } = req.body;
+export const confirmPasswordValidation = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { password, confirmPassword } = req.body;
 
-    if (password !== confirmPassword) {
-        return res.status(400).json({ message: "Password and confirm password do not match" });
-    }
-
-    next();
+  if (password !== confirmPassword) {
+    return res
+      .status(400)
+      .json({ message: 'Password and confirm password do not match' });
+  }
 }
 
 export const validateUserRequest = (req:Request, res: Response, next: NextFunction) => {
