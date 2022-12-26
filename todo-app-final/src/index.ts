@@ -13,24 +13,18 @@ app.use(express.json());
 
 app.use('/api/v1', mainRouter);
 
-app.use(
-  (
-    err: HttpError,
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
-  ) => {
-    console.log('global error status:', err.statusCode, err.message);
-    res.status(err.statusCode || 500).json({
-      status: err.statusCode || 500,
-      message: err.message,
-    });
-  }
-);
+app.use((err: HttpError, _req: Request, res: Response, _next: NextFunction) => {
+  logger.error(err.message);
+
+  res.status(err.statusCode || 500).json({
+    status: err.statusCode || 500,
+    message: err.message,
+  });
+});
 
 app.use(notFound);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  logger.info(`Server is running on port ${PORT}`);
 });

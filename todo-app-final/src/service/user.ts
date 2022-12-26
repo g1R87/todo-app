@@ -1,5 +1,6 @@
 import { prisma } from '../utils/db';
 import createError from 'http-errors';
+import { hashPassword } from '../utils/passwords';
 
 export const getAllUsers = async () => {
   try {
@@ -28,17 +29,37 @@ export const getUser = async (id: number) => {
   }
 };
 
+export const getUserByEmail = async (email: string) => {
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        email,
+      },
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return user;
+  } catch (error: any) {
+    throw createError(404, error.message);
+  }
+};
+
 export const createUser = async (
   name: string,
   email: string,
   password: string
 ) => {
   try {
+    const hashedPassword = await hashPassword(password);
+
     const user = await prisma.user.create({
       data: {
         name,
         email,
-        password,
+        password: hashedPassword,
       },
     });
     return user;
