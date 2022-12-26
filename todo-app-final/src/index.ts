@@ -1,9 +1,10 @@
 import dotenv from 'dotenv';
+import { HttpError } from 'http-errors';
 import express, { Request, Response, NextFunction } from 'express';
 
 import mainRouter from './routes/index';
 import { logger } from './utils/logger';
-import { statusError } from './utils/createError';
+import notFound from './middlewares/notFound';
 
 dotenv.config();
 
@@ -12,16 +13,24 @@ app.use(express.json());
 
 app.use('/api/v1', mainRouter);
 
-//error handling middleware
 app.use(
-  (err: statusError, _req: Request, res: Response, _next: NextFunction) => {
-    res.status(err.status || 500).json({
-      status: err.status || 500,
+  (
+    err: HttpError,
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    console.log('global error status:', err.statusCode, err.message);
+    res.status(err.statusCode || 500).json({
+      status: err.statusCode || 500,
       message: err.message,
     });
-    logger.error(`[${err.status || 500}] - ${err.message}`);
   }
 );
 
+app.use(notFound);
+
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => logger.info(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
