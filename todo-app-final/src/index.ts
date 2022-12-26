@@ -1,7 +1,9 @@
-import express from 'express';
 import dotenv from 'dotenv';
-import mainRouter from './routes/index';
 import { HttpError } from 'http-errors';
+import express, { Request, Response, NextFunction } from 'express';
+
+import mainRouter from './routes/index';
+import { logger } from './utils/logger';
 import notFound from './middlewares/notFound';
 
 dotenv.config();
