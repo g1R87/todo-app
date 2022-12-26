@@ -1,9 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import userSchema from "../schema/user";
-// import { createError } from "../utils/createError";
-import createError from "http-errors";
-
-
+import { NextFunction, Request, Response } from 'express';
+import userSchema from '../schema/user';
+import createError from 'http-errors';
 
 export const confirmPasswordValidation = (
   req: Request,
@@ -17,18 +14,20 @@ export const confirmPasswordValidation = (
       .status(400)
       .json({ message: 'Password and confirm password do not match' });
   }
-}
+};
 
-export const validateUserRequest = (req:Request, res: Response, next: NextFunction) => {
-  try{
+export const validateUserRequest = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
     userSchema.validateSync(req.body);
     next();
-  }catch(error: any){
-
+  } catch (error: any) {
     next(createError(404, error.message));
   }
-}
-
+};
 
 /*
     @TODO - Sujan

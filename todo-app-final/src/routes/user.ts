@@ -1,6 +1,12 @@
 import { Router } from 'express';
 
-import { createUser, getUser, getUsers, updateUser, deleteUser } from '../controllers/user';
+import {
+  createUser,
+  getUser,
+  getUsers,
+  updateUser,
+  deleteUser,
+} from '../controllers/user';
 import { validateUserRequest } from '../middlewares/user';
 
 const userRouter = Router();
