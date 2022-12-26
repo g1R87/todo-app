@@ -1,4 +1,10 @@
 import prisma from '../db';
+// import { createError } from '../utils/createError';
+// const createError = require('http-errors');
+import createError from "http-errors";
+
+
+
 
 export const getAllUsers = async () => {
   try {
@@ -23,7 +29,8 @@ export const getUser = async (id: number) => {
 
     return users;
   } catch (error: any) {
-    throw new Error(error.message);
+    throw createError(404,error.message);
+    // throw new Error(error.message);
   }
 };
 
