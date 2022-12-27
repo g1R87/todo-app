@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import createHttpError from 'http-errors';
 import { getUserByEmail } from '../service/user';
+import { createToken } from '../utils/jwt';
 import { verifyPassword } from '../utils/passwords';
 import { createSuccessfulResponse } from '../utils/response';
 
@@ -29,7 +30,29 @@ export const login = async (
 
     const { password: _, ...userWithoutPassword } = user;
 
-    res.send(createSuccessfulResponse(userWithoutPassword));
+    const accessToken = createToken(
+      userWithoutPassword,
+      process.env.JWT_SECRET as string,
+      {
+        expiresIn: '1m',
+      }
+    );
+
+    const refreshToken = createToken(
+      userWithoutPassword,
+      process.env.JWT_SECRET as string,
+      {
+        expiresIn: '30m',
+      }
+    );
+
+    res.send(
+      createSuccessfulResponse({
+        accessToken,
+        refreshToken,
+        user: userWithoutPassword,
+      })
+    );
   } catch (error: any) {
     next(error);
   }

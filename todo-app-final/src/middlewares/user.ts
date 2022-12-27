@@ -1,24 +1,12 @@
-import { NextFunction, Request, Response } from 'express';
-import userSchema from '../schema/user';
 import createError from 'http-errors';
+import { NextFunction, Request, Response } from 'express';
 
-export const confirmPasswordValidation = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const { password, confirmPassword } = req.body;
-
-  if (password !== confirmPassword) {
-    return res
-      .status(400)
-      .json({ message: 'Password and confirm password do not match' });
-  }
-};
+import userSchema from '../schema/user';
+import { verifyToken } from '../utils/jwt';
 
 export const validateUserRequest = (
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction
 ) => {
   try {
@@ -29,11 +17,32 @@ export const validateUserRequest = (
   }
 };
 
-/*
-    @TODO - Sujan
-* 1. Create schema based validation
-* 2. Add error handling
-*
-    @Todo - Anuj
-* 1. Add other routes for users
-*/
+export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+
+    if (!token) {
+      throw 'error';
+    }
+
+    const user = verifyToken(token, process.env.JWT_SECRET as string);
+
+    res.locals.user = user;
+
+    next();
+  } catch (error: any) {
+    throw createError(401, 'Unauthorized');
+  }
+};
+
+export const isAdmin = (_req: Request, res: Response, next: NextFunction) => {
+  try {
+    if (res.locals.user.isAdmin) {
+      throw 'error';
+    }
+
+    next();
+  } catch (error: any) {
+    throw createError(403, 'Unauthorized');
+  }
+};
