@@ -36,10 +36,10 @@ export const createTodo = async (userId: number, task: string) => {
 
 export const deleteTodo = async (userId: number, isAdmin: boolean, id: number) => {
   try {
-       if(isAdmin){
+       if(isAdmin && id){
       const deletedUser = await prisma.todo.deleteMany({
         where: {
-          userId: id,
+          id,
         }
       })
       return deletedUser;
@@ -47,7 +47,7 @@ export const deleteTodo = async (userId: number, isAdmin: boolean, id: number) =
     }else{
       const deletedUser = await prisma.todo.deleteMany({
         where:{
-          userId
+          userId,
         }
       })
       return deletedUser;      
