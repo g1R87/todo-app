@@ -1,87 +1,94 @@
 import { prisma } from '../utils/db';
 import createError from 'http-errors';
 
-
-export const getTodo =async (userId: number, isAdmin: boolean, q: string) => {
+export const getTodo = async (userId: number, isAdmin: boolean, q: string) => {
   try {
-    if(isAdmin && q === "all"){
-        const allTodo = await prisma.todo.findMany();
-        return allTodo;
-      }
-        const  allTodo = await prisma.todo.findMany({
-          where:{
-            userId
-          },
-     
-        })
-        return allTodo;
-  }catch (error: any) {
-    throw createError(404, error.message)
+    if (isAdmin && q === 'all') {
+      const allTodo = await prisma.todo.findMany();
+      return allTodo;
+    }
+    const allTodo = await prisma.todo.findMany({
+      where: {
+        userId,
+      },
+    });
+    return allTodo;
+  } catch (error: any) {
+    throw createError(404, error.message);
   }
-}
+};
 
 export const createTodo = async (userId: number, task: string) => {
-    try {
-        const user = await prisma.todo.create({
-            data: {
-              task,
-              userId
-            },
-          });
-          return user;
-    } catch (error: any) {
-        throw createError(404, error.message);
-    }
-}
-
-export const deleteTodo = async (userId: number, isAdmin: boolean, id: number) => {
   try {
-       if(isAdmin && id){
+    const user = await prisma.todo.create({
+      data: {
+        task,
+        userId,
+      },
+    });
+    return user;
+  } catch (error: any) {
+    throw createError(404, error.message);
+  }
+};
+
+export const deleteTodo = async (
+  userId: number,
+  isAdmin: boolean,
+  id: number
+) => {
+  try {
+    if (isAdmin && id) {
       const deletedUser = await prisma.todo.deleteMany({
         where: {
           id,
-        }
-      })
+        },
+      });
       return deletedUser;
-
-    }else{
+    } else {
       const deletedUser = await prisma.todo.deleteMany({
-        where:{
+        where: {
           userId,
-        }
-      })
-      return deletedUser;      
+        },
+      });
+      return deletedUser;
     }
-  } catch (error:any) {
-    throw createError(400, error.message)
+  } catch (error: any) {
+    throw createError(400, error.message);
   }
-}
+};
 
-export const updateTodo = async (userId:number,isAdmin:boolean,id:number, task: string, completed: boolean) => {
+export const updateTodo = async (
+  userId: number,
+  isAdmin: boolean,
+  id: number,
+  task: string,
+  completed: boolean
+) => {
   try {
-    if(isAdmin){
-        const updatedTodo = await prisma.todo.updateMany({
-            data:{
-              task,
-              completed
-            },
-            where:{
-              id
-            }
-          });
-          return updatedTodo;
+    if (isAdmin && id) {
+      const updatedTodo = await prisma.todo.updateMany({
+        data: {
+          task,
+          completed,
+        },
+        where: {
+          id,
+        },
+      });
+      return updatedTodo;
     }
-     const updatedTodo = await prisma.todo.updateMany({
-      data:{
+    const updatedTodo = await prisma.todo.updateMany({
+      data: {
         task,
-        completed
+        completed,
       },
-      where:{
-        userId
-      }
+      where: {
+        userId,
+      },
     });
     return updatedTodo;
   } catch (error: any) {
-    throw createError(404, error.message)
+    throw createError(404, error.message);
   }
-}
+};
