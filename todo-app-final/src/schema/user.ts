@@ -13,5 +13,4 @@ const userSchema = yup.object({
     .required()
     .oneOf([yup.ref('password'), null], 'Passwords must match'),
 });
-
 export default userSchema;

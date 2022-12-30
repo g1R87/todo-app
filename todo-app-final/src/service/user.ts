@@ -2,6 +2,7 @@ import { prisma } from '../utils/db';
 import createError from 'http-errors';
 import { hashPassword } from '../utils/passwords';
 
+
 export const getAllUsers = async () => {
   try {
     const users = await prisma.user.findMany();
