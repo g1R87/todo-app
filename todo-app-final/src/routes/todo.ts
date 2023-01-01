@@ -4,9 +4,11 @@ import { validateTodo } from "../middlewares/todo";
 import { isLoggedIn } from "../middlewares/user";
 const todoRouter = Router();
 
-todoRouter.get('/',isLoggedIn,todoController.getTodo) //need to insert auth and isadmin
+todoRouter.get('/',isLoggedIn,todoController.getTodo)
 todoRouter.post('/',isLoggedIn,validateTodo,todoController.createTodo)
-todoRouter.put('/',isLoggedIn,todoController.updateTodo)
-todoRouter.delete('/',isLoggedIn,todoController.deleteTodo)
+todoRouter.put('/:id',isLoggedIn,validateTodo,todoController.updateTodo)
+todoRouter.delete('/:id',isLoggedIn,todoController.deleteTodo)
 
 export default todoRouter;
+
+//todo research nodemailer and template engines

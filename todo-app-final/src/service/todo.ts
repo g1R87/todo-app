@@ -28,8 +28,15 @@ export const createTodo = async (userId: number, task: string) => {
     });
     return user;
   } catch (error: any) {
-    throw createError(404, error.message);
+    throw createError(400, error.message);
   }
+};
+
+const deleteTodoItem = async (where: object) => {
+  const deletedTodo = await prisma.todo.deleteMany({
+    where,
+  });
+  return deletedTodo;
 };
 
 export const deleteTodo = async (
@@ -39,23 +46,23 @@ export const deleteTodo = async (
 ) => {
   try {
     if (isAdmin && id) {
-      const deletedUser = await prisma.todo.deleteMany({
-        where: {
-          id,
-        },
-      });
-      return deletedUser;
+      const deletedTodo = await deleteTodoItem({ id });
+      return deletedTodo;
     } else {
-      const deletedUser = await prisma.todo.deleteMany({
-        where: {
-          userId,
-        },
-      });
-      return deletedUser;
+      const deletedTodo = await deleteTodoItem({ id, userId });
+      return deletedTodo;
     }
   } catch (error: any) {
     throw createError(400, error.message);
   }
+};
+
+const updatedTodoItem = async (data: object, where: object) => {
+  const updatedTodo = await prisma.todo.updateMany({
+    data,
+    where,
+  });
+  return updatedTodo;
 };
 
 export const updateTodo = async (
@@ -67,26 +74,13 @@ export const updateTodo = async (
 ) => {
   try {
     if (isAdmin && id) {
-      const updatedTodo = await prisma.todo.updateMany({
-        data: {
-          task,
-          completed,
-        },
-        where: {
-          id,
-        },
-      });
+      const updatedTodo = await updatedTodoItem({ task, completed }, { id });
       return updatedTodo;
     }
-    const updatedTodo = await prisma.todo.updateMany({
-      data: {
-        task,
-        completed,
-      },
-      where: {
-        userId,
-      },
-    });
+    const updatedTodo = await updatedTodoItem(
+      { task, completed },
+      { id, userId }
+    );
     return updatedTodo;
   } catch (error: any) {
     throw createError(404, error.message);
