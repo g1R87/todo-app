@@ -4,7 +4,8 @@ generator client {
 
 datasource db {
     provider = "postgresql"
-    url      = "postgresql://prashant:password@localhost:5432/todoapp"
+    url      = env("DATABASE_URL")
+    // url      = "postgresql://prashant:password@localhost:5432/todoapp"
 }
 
 model User {
@@ -18,13 +19,14 @@ model User {
     isAdmin   Boolean  @default(false)
 }
 
+//todo add due date 
 model Todo {
     id        Int      @id @default(autoincrement())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     task      String
     completed Boolean  @default(false)
-    author    User     @relation(fields: [userId], references: [id])
+    dueDate   DateTime
+    author    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId    Int
-    // @@id([id, userId])
 }
