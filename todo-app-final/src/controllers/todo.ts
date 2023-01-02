@@ -23,9 +23,9 @@ export const createTodo = async (
   next: NextFunction
 ) => {
   try {
-    const { task } = req.body;
+    const { task, days } = req.body;
     const userId = res.locals.user.id;
-    const user = await todoServices.createTodo(userId, task);
+    const user = await todoServices.createTodo(userId, task, days);
     res.status(201).json(createSuccessfulResponse(user));
   } catch (error: any) {
     next(error);

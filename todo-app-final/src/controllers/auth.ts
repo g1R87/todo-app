@@ -34,7 +34,7 @@ export const login = async (
       userWithoutPassword,
       process.env.JWT_SECRET as string,
       {
-        expiresIn: '3m',
+        expiresIn: '5m',
       }
     );
 

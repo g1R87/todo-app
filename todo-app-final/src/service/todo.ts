@@ -1,10 +1,32 @@
 import { prisma } from '../utils/db';
 import createError from 'http-errors';
 
+
 export const getTodo = async (userId: number, isAdmin: boolean, q: string) => {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate()+ 1);
   try {
     if (isAdmin && q === 'all') {
       const allTodo = await prisma.todo.findMany();
+      return allTodo;
+    }
+    if (isAdmin && q === "due" ) {
+      const allTodo = await prisma.todo.findMany({
+        where:{
+          dueDate: { lte: tomorrow},
+          completed: false
+        }
+      });
+      return allTodo;
+    }
+   if( q === "due"){
+      const allTodo = await prisma.todo.findMany({
+        where: {
+          dueDate:{ lte: tomorrow},
+          completed: false,
+          userId
+        }
+      });
       return allTodo;
     }
     const allTodo = await prisma.todo.findMany({
@@ -18,12 +40,17 @@ export const getTodo = async (userId: number, isAdmin: boolean, q: string) => {
   }
 };
 
-export const createTodo = async (userId: number, task: string) => {
+
+export const createTodo = async (userId: number, task: string, days: number) => {
   try {
+
+    const date = new Date();
+    date.setDate(date.getDate() + days);
     const user = await prisma.todo.create({
       data: {
         task,
         userId,
+        dueDate: date
       },
     });
     return user;
