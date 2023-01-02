@@ -1,8 +1,10 @@
-import { NextFunction, Request, Response } from 'express';
 import createHttpError from 'http-errors';
-import { getUserByEmail } from '../service/user.service';
+import { NextFunction, Request, Response } from 'express';
+
+import { config } from '../config/default';
 import { createToken } from '../utils/jwt';
 import { verifyPassword } from '../utils/passwords';
+import { getUserByEmail } from '../service/user.service';
 import { createSuccessfulResponse } from '../utils/response';
 
 export const login = async (
@@ -32,7 +34,7 @@ export const login = async (
 
     const accessToken = createToken(
       userWithoutPassword,
-      process.env.JWT_SECRET as string,
+      config.accessTokenKey,
       {
         expiresIn: '5m',
       }
@@ -40,7 +42,7 @@ export const login = async (
 
     const refreshToken = createToken(
       userWithoutPassword,
-      process.env.JWT_SECRET as string,
+      config.refreshTokenKey,
       {
         expiresIn: '30m',
       }

@@ -3,6 +3,7 @@ import { HttpError } from 'http-errors';
 import express, { Request, Response, NextFunction } from 'express';
 
 import mainRouter from './routes/index';
+import { config } from './config/default';
 import { logger } from './utils/logger';
 import notFound from './middlewares/notFound.middleware';
 
@@ -22,5 +23,5 @@ app.use((err: HttpError, _req: Request, res: Response, _next: NextFunction) => {
 
 app.use(notFound);
 
-const PORT = process.env.PORT || 3000;
+const PORT = config.port || 3000;
 app.listen(PORT, () => logger.info(`Server is running on port ${PORT}`));

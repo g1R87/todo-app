@@ -1,31 +1,31 @@
-import { prisma } from '../utils/db';
 import createError from 'http-errors';
 
+import { prisma } from '../utils/db';
 
 export const getTodo = async (userId: number, isAdmin: boolean, q: string) => {
   const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate()+ 1);
+  tomorrow.setDate(tomorrow.getDate() + 1);
   try {
     if (isAdmin && q === 'all') {
       const allTodo = await prisma.todo.findMany();
       return allTodo;
     }
-    if (isAdmin && q === "due" ) {
+    if (isAdmin && q === 'due') {
       const allTodo = await prisma.todo.findMany({
-        where:{
-          dueDate: { lte: tomorrow},
-          completed: false
-        }
+        where: {
+          dueDate: { lte: tomorrow },
+          completed: false,
+        },
       });
       return allTodo;
     }
-   if( q === "due"){
+    if (q === 'due') {
       const allTodo = await prisma.todo.findMany({
         where: {
-          dueDate:{ lte: tomorrow},
+          dueDate: { lte: tomorrow },
           completed: false,
-          userId
-        }
+          userId,
+        },
       });
       return allTodo;
     }
@@ -40,17 +40,19 @@ export const getTodo = async (userId: number, isAdmin: boolean, q: string) => {
   }
 };
 
-
-export const createTodo = async (userId: number, task: string, days: number) => {
+export const createTodo = async (
+  userId: number,
+  task: string,
+  days: number
+) => {
   try {
-
     const date = new Date();
     date.setDate(date.getDate() + days);
     const user = await prisma.todo.create({
       data: {
         task,
         userId,
-        dueDate: date
+        dueDate: date,
       },
     });
     return user;

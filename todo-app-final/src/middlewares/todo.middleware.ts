@@ -1,5 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
+import { Request, Response, NextFunction } from 'express';
+
 import { todoCreate, todoUpdate } from '../schema/todo.schema';
 
 export const validateTodo = (

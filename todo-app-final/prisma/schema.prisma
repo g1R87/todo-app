@@ -25,7 +25,7 @@ model Todo {
     updatedAt DateTime @updatedAt
     task      String
     completed Boolean  @default(false)
-    dueDate   DateTime 
+    dueDate   DateTime
     author    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId    Int
 }

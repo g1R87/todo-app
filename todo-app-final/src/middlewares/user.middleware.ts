@@ -1,8 +1,9 @@
 import createError from 'http-errors';
 import { NextFunction, Request, Response } from 'express';
 
-import userSchema from '../schema/user.schema';
+import { config } from '../config/default';
 import { verifyToken } from '../utils/jwt';
+import userSchema from '../schema/user.schema';
 
 export const validateUserRequest = (
   req: Request,
@@ -21,11 +22,9 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
 
-    if (!token) {
-      throw 'error';
-    }
+    if (!token) throw 'error';
 
-    const user = verifyToken(token, process.env.JWT_SECRET as string);
+    const user = verifyToken(token, config.accessTokenKey);
 
     res.locals.user = user;
 
@@ -37,9 +36,7 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
 
 export const isAdmin = (_req: Request, res: Response, next: NextFunction) => {
   try {
-    if (res.locals.user.isAdmin) {
-      throw 'error';
-    }
+    if (res.locals.user.isAdmin) throw 'error';
 
     next();
   } catch (error: any) {
