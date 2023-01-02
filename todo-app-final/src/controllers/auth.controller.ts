@@ -1,10 +1,12 @@
 import createHttpError from 'http-errors';
-import { NextFunction, Request, response, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 import { config } from '../config/default';
-import { createToken, verifyToken } from '../utils/jwt';
-import { verifyPassword } from '../utils/passwords';
+
 import { getUserByEmail } from '../service/user.service';
+
+import { verifyPassword } from '../utils/passwords';
+import { createToken, verifyToken } from '../utils/jwt';
 import { createSuccessfulResponse } from '../utils/response';
 
 export const login = async (

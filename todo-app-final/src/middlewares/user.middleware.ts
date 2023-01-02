@@ -2,8 +2,10 @@ import createError from 'http-errors';
 import { NextFunction, Request, Response } from 'express';
 
 import { config } from '../config/default';
-import { verifyToken } from '../utils/jwt';
+
 import userSchema from '../schema/user.schema';
+
+import { verifyToken } from '../utils/jwt';
 
 export const validateUserRequest = (
   req: Request,

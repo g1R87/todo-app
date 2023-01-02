@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 
 import * as userService from '../service/user.service';
 
+import { sendEmail } from '../utils/nodemailer';
+
 export const getUsers = async (
   _req: Request,
   res: Response,
