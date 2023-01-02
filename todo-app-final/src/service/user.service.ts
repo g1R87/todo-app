@@ -63,6 +63,9 @@ export const createUser = async (
         password: hashedPassword,
       },
     });
+
+    console.log(user);
+
     return user;
   } catch (error: any) {
     throw new Error(error.message);

@@ -37,7 +37,9 @@ export const createUser = async (
     const { name, email, password } = req.body;
     const newUser = await userService.createUser(name, email, password);
 
-    res.status(201).json({ status: 'success', payload: newUser });
+    const { password: _, ...userWithoutPassword } = newUser;
+
+    res.status(201).json({ status: 'success', payload: userWithoutPassword });
   } catch (error: any) {
     next(error);
   }

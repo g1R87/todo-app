@@ -1,8 +1,10 @@
 import { Router } from 'express';
-import { login } from '../controllers/auth.controller';
+import { login, tokenRefresh } from '../controllers/auth.controller';
 
 const authRouter = Router();
 
 authRouter.post('/login', login);
+
+authRouter.post('/token-refresh', tokenRefresh);
 
 export default authRouter;
