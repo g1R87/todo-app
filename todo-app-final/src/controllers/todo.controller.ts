@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import * as todoServices from '../service/todo';
+import * as todoServices from '../service/todo.service';
 import { createSuccessfulResponse } from '../utils/response';
 
 export const getTodo = async (

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import createHttpError from 'http-errors';
-import { getUserByEmail } from '../service/user';
+import { getUserByEmail } from '../service/user.service';
 import { createToken } from '../utils/jwt';
 import { verifyPassword } from '../utils/passwords';
 import { createSuccessfulResponse } from '../utils/response';

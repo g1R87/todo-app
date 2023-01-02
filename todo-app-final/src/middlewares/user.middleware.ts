@@ -1,7 +1,7 @@
 import createError from 'http-errors';
 import { NextFunction, Request, Response } from 'express';
 
-import userSchema from '../schema/user';
+import userSchema from '../schema/user.schema';
 import { verifyToken } from '../utils/jwt';
 
 export const validateUserRequest = (

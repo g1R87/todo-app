@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-import * as userService from '../service/user';
+import * as userService from '../service/user.service';
 
 export const getUsers = async (
   _req: Request,
@@ -20,7 +20,7 @@ export const getUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  try { 
+  try {
     const allUsers = await userService.getUser(+req.params.id);
     res.status(200).json({ status: 'success', payload: allUsers });
   } catch (error: any) {
