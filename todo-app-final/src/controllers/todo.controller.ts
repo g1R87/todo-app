@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 
 import * as todoServices from '../service/todo.service';
+import type { UpdateTodo } from '../service/todo.service';
+
 import { createSuccessfulResponse } from '../utils/response';
 
 export const getTodo = async (
@@ -24,9 +26,8 @@ export const createTodo = async (
   next: NextFunction
 ) => {
   try {
-    const { task, days } = req.body;
-    const userId = res.locals.user.id;
-    const user = await todoServices.createTodo(userId, task, days);
+    const userId = parseInt(res.locals.user.id, 10);
+    const user = await todoServices.createTodo(userId, req.body);
     res.status(201).json(createSuccessfulResponse(user));
   } catch (error: any) {
     next(error);
@@ -54,18 +55,19 @@ export const updateTodo = async (
   next: NextFunction
 ) => {
   try {
+    const id = parseInt(req.params.id, 10);
     const { task, completed } = req.body;
-    const todoId = +req.params.id;
-    const userId = res.locals.user.id;
-    const isAdmin = res.locals.user.isAdmin;
+    const { isAdmin, id: userId } = res.locals.user;
 
-    const updatedUser = await todoServices.updateTodo(
+    const updateTodo: UpdateTodo = {
       userId,
       isAdmin,
-      todoId,
+      id,
       task,
-      completed
-    );
+      completed,
+    };
+
+    const updatedUser = await todoServices.updateTodo(updateTodo);
     res.status(201).json({ status: 'success', payload: updatedUser });
   } catch (error: any) {
     next(error);

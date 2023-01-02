@@ -1,10 +1,17 @@
 import createError from 'http-errors';
 
 import { prisma } from '../utils/db';
+import { tomorrowTime } from '../utils/day';
+
+export type UpdateTodo = {
+  userId: number;
+  isAdmin: boolean;
+  id: number;
+  task: string;
+  completed: boolean;
+};
 
 export const getTodo = async (userId: number, isAdmin: boolean, q: string) => {
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
   try {
     if (isAdmin && q === 'all') {
       const allTodo = await prisma.todo.findMany();
@@ -13,7 +20,7 @@ export const getTodo = async (userId: number, isAdmin: boolean, q: string) => {
     if (isAdmin && q === 'due') {
       const allTodo = await prisma.todo.findMany({
         where: {
-          dueDate: { lte: tomorrow },
+          dueDate: { lte: tomorrowTime() },
           completed: false,
         },
       });
@@ -22,7 +29,7 @@ export const getTodo = async (userId: number, isAdmin: boolean, q: string) => {
     if (q === 'due') {
       const allTodo = await prisma.todo.findMany({
         where: {
-          dueDate: { lte: tomorrow },
+          dueDate: { lte: tomorrowTime() },
           completed: false,
           userId,
         },
@@ -40,12 +47,18 @@ export const getTodo = async (userId: number, isAdmin: boolean, q: string) => {
   }
 };
 
+type CreateTodoBody = {
+  task: string;
+  days: number;
+};
+
 export const createTodo = async (
   userId: number,
-  task: string,
-  days: number
+  createTodoBody: CreateTodoBody
 ) => {
   try {
+    const { days, task } = createTodoBody;
+
     const date = new Date();
     date.setDate(date.getDate() + days);
 
@@ -95,22 +108,21 @@ const updatedTodoItem = async (data: object, where: object) => {
   return updatedTodo;
 };
 
-export const updateTodo = async (
-  userId: number,
-  isAdmin: boolean,
-  id: number,
-  task: string,
-  completed: boolean
-) => {
+export const updateTodo = async (user: UpdateTodo) => {
   try {
+    const { userId, isAdmin, task, completed, id } = user;
+
+    const data = { task, completed };
+
     if (isAdmin && id) {
-      const updatedTodo = await updatedTodoItem({ task, completed }, { id });
+      const updatedTodo = await updatedTodoItem(data, { id });
       return updatedTodo;
     }
-    const updatedTodo = await updatedTodoItem(
-      { task, completed },
-      { id, userId }
-    );
+
+    const matchconditoin = { id, userId };
+
+    const updatedTodo = await updatedTodoItem(data, matchconditoin);
+
     return updatedTodo;
   } catch (error: any) {
     throw createError(404, error.message);

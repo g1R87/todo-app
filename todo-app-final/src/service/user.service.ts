@@ -3,6 +3,12 @@ import createError from 'http-errors';
 import { prisma } from '../utils/db';
 import { hashPassword } from '../utils/passwords';
 
+type User = {
+  name: string;
+  email: string;
+  password: string;
+};
+
 export const getAllUsers = async () => {
   try {
     const users = await prisma.user.findMany();
@@ -20,13 +26,9 @@ export const getUser = async (id: number) => {
       },
     });
 
-    if (!users) {
-      throw new Error('User not found');
-    }
-
     return users;
   } catch (error: any) {
-    throw createError(404, error.message);
+    throw error;
   }
 };
 
@@ -38,22 +40,18 @@ export const getUserByEmail = async (email: string) => {
       },
     });
 
-    if (!user) {
-      throw new Error('User not found');
-    }
+    if (!user) throw createError(404, 'User Not found');
 
     return user;
   } catch (error: any) {
-    throw createError(404, error.message);
+    throw error;
   }
 };
 
-export const createUser = async (
-  name: string,
-  email: string,
-  password: string
-) => {
+export const createUser = async (newUser: User) => {
   try {
+    const { name, email, password } = newUser;
+
     const hashedPassword = await hashPassword(password);
 
     const user = await prisma.user.create({
@@ -64,24 +62,17 @@ export const createUser = async (
       },
     });
 
-    console.log(user);
-
     return user;
   } catch (error: any) {
     throw new Error(error.message);
   }
 };
 
-export const updateUser = async (
-  id: number,
-  name: string,
-  email: string,
-  password: string
-) => {
+export const updateUser = async (id: number, updateUser: User) => {
   try {
     return await prisma.user.update({
       where: { id },
-      data: { name, email, password },
+      data: updateUser,
     });
   } catch (error: any) {
     throw new Error(error.message);

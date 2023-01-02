@@ -34,10 +34,9 @@ export const createUser = async (
   next: NextFunction
 ) => {
   try {
-    const { name, email, password } = req.body;
-    const newUser = await userService.createUser(name, email, password);
+    const newUser = await userService.createUser(req.body);
 
-    const { password: _, ...userWithoutPassword } = newUser;
+    const { password, ...userWithoutPassword } = newUser;
 
     res.status(201).json({ status: 'success', payload: userWithoutPassword });
   } catch (error: any) {
@@ -51,9 +50,9 @@ export const updateUser = async (
   next: NextFunction
 ) => {
   try {
-    const { name, email, password } = req.body;
     const id = parseInt(req.params.id, 10);
-    const updateUser = await userService.updateUser(id, name, email, password);
+
+    const updateUser = await userService.updateUser(id, req.body);
 
     res.status(201).json({ status: 'success', payload: updateUser });
   } catch (error: any) {

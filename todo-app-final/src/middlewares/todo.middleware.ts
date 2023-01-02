@@ -18,6 +18,6 @@ export const validateTodo = (
       next();
     }
   } catch (error: any) {
-    next(createError(404, error.message));
+    next(createError(400, error.message));
   }
 };
