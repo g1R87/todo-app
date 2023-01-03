@@ -71,7 +71,7 @@ export const tokenRefresh = async (
     const { refreshToken } = req.body;
 
     const responseDecode = verifyToken(refreshToken, config.refreshTokenKey);
-
+    console.log(responseDecode);
     res.locals.user = responseDecode;
 
     const { exp, iat, ...user } = res.locals.user;

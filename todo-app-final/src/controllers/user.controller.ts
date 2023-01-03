@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 
 import * as userService from '../service/user.service';
 
-import { sendEmail } from '../utils/nodemailer';
 
 export const getUsers = async (
   _req: Request,
@@ -39,7 +38,7 @@ export const createUser = async (
     const newUser = await userService.createUser(req.body);
 
     const { password, ...userWithoutPassword } = newUser;
-
+    
     res.status(201).json({ status: 'success', payload: userWithoutPassword });
   } catch (error: any) {
     next(error);

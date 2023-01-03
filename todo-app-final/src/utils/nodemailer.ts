@@ -5,11 +5,18 @@ import { config } from '../config/default';
 
 const smtp = config.smtp;
 
+// const transporter = nodemailer.createTransport({
+//   ...smtp,
+//   auth: {
+//     user: smtp.user,
+//     pass: smtp.pass,
+//   },
+// });
 const transporter = nodemailer.createTransport({
-  ...smtp,
+  service: "hotmail",
   auth: {
-    user: smtp.user,
-    pass: smtp.pass,
+    user: config.user,
+    pass: config.pass,
   },
 });
 

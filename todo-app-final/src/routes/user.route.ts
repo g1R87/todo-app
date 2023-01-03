@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { register } from '../controllers/register.controller';
 
 import * as userController from '../controllers/user.controller';
 import {
@@ -11,7 +12,7 @@ const userRouter = Router();
 
 userRouter.get('/', userController.getUsers);
 userRouter.get('/:id', userController.getUser);
-userRouter.post('/', validateUserRequest, userController.createUser);
+userRouter.post('/', validateUserRequest, register);
 userRouter.put(
   '/:id',
   validateUserRequest,
