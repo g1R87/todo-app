@@ -71,40 +71,54 @@ export const createUser = async (newUser: User) => {
   }
 };
 
-export const registerUser = async(newUser: User) =>{
+export const resetPassword = async (user: User, email: string) => {
   try {
-    const { name, email, password} = newUser;
+    const { password } = user;
+    const hashedPassword = await hashPassword(password);
+    const updatedUser = await prisma.user.update({
+      where: {
+        email,
+      },
+      data: {
+        password: hashedPassword,
+      },
+    });
+    return updatedUser;
+  } catch (error: any) {
+    throw new error.message();
+  }
+};
 
-    const token = createToken(
-      {"email": email},
-      config.accessTokenKey,
-      {
-        expiresIn: '5m',
-      }
-    );
+export const registerUser = async (newUser: User) => {
+  try {
+    const { name, email, password } = newUser;
+
+    const token = createToken({ email: email }, config.accessTokenKey, {
+      expiresIn: '5m',
+    });
 
     const hashedPassword = await hashPassword(password);
 
     const user = await prisma.user.create({
-      data:{
+      data: {
         name,
         email,
-        password: hashedPassword
-      }
+        password: hashedPassword,
+      },
     });
 
     await sendEmail({
-      from: 'giri.sujan87@outlook.com',
+      from: 'mail69@gmail.com',
       to: email,
       subject: 'Sending Email using Node.js',
-      html: `Click <a href= http://localhost:3000/api/v1/auth/verify/${token}> here </a> to verify.`
-    })
+      html: `Click <a href= http://localhost:3000/api/v1/auth/verify/${token}> here </a> to verify.`,
+    });
 
     return user;
   } catch (error: any) {
     throw new Error(error.message);
   }
-}
+};
 
 export const updateUser = async (id: number, updateUser: User) => {
   try {
