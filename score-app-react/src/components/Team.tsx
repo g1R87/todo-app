@@ -1,4 +1,4 @@
-import { TeamObjectType } from "../App";
+import { TeamObjectType } from '../App';
 
 function Team({ name, logo, score }: TeamObjectType) {
   return (

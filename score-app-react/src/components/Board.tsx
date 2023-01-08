@@ -1,5 +1,5 @@
-import { ScoreObject } from "../App";
-import ScoreCard from "./ScoreCard";
+import { ScoreObject } from '../App';
+import ScoreCard from './ScoreCard';
 
 function Board({
   title,
