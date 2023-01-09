@@ -2,15 +2,14 @@ import ScoreCard from './ScoreCard';
 
 import type { ScoreObject } from '../data/ScoreTableData';
 
-function Board({
-  title,
-  matchDay,
-  scores,
-}: {
+type BoardProps = {
   title: string;
   matchDay: number;
   scores: ScoreObject[];
-}) {
+};
+
+function Board(props: BoardProps) {
+  const { title, matchDay, scores } = props;
   return (
     <div className="board">
       <div className="title">
