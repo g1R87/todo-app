@@ -1,5 +1,6 @@
-import { ScoreObject } from '../App';
 import ScoreCard from './ScoreCard';
+
+import type { ScoreObject } from '../data/ScoreTableData';
 
 function Board({
   title,

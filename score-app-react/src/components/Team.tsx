@@ -1,4 +1,4 @@
-import { TeamObjectType } from '../App';
+import type { TeamObjectType } from '../data/ScoreTableData';
 
 function Team({ name, logo, score }: TeamObjectType) {
   return (
