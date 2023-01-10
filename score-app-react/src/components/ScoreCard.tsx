@@ -1,5 +1,6 @@
-import { ScoreObject } from "../App";
-import Team from "./Team";
+import Team from './Team';
+
+import type { ScoreObject } from '../data/ScoreTableData';
 
 function ScoreCard({ date, team1, team2 }: ScoreObject) {
   return (

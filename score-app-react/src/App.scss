@@ -1,0 +1,57 @@
+$ternary-header-color: #37474f;
+
+body {
+  font-family: 'Raleway', sans-serif;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+}
+
+.logo {
+  width: 30px;
+  height: 35px;
+}
+
+.board {
+  .title {
+    margin: 20px 0;
+  }
+
+  h1 {
+    margin: 10px 0;
+  }
+
+  h3 {
+    color: $ternary-header-color;
+  }
+}
+
+.scorecard-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.scorecard {
+  width: 49%;
+  margin-bottom: 16px;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.team-logo-title {
+  display: flex;
+  align-items: center;
+  img {
+    margin-right: 10px;
+  }
+}
+
+.team {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}

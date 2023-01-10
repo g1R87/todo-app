@@ -1,15 +1,15 @@
-import { ScoreObject } from "../App";
-import ScoreCard from "./ScoreCard";
+import ScoreCard from './ScoreCard';
 
-function Board({
-  title,
-  matchDay,
-  scores,
-}: {
+import type { ScoreObject } from '../data/ScoreTableData';
+
+type BoardProps = {
   title: string;
   matchDay: number;
   scores: ScoreObject[];
-}) {
+};
+
+function Board(props: BoardProps) {
+  const { title, matchDay, scores } = props;
   return (
     <div className="board">
       <div className="title">
