@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.scss';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
@@ -11,6 +11,18 @@ export interface Todo {
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    fetch('https://jsonplaceholder.typicode.com/todos')
+      .then((response) => response.json())
+      .then((json) => {
+        setTodos(json);
+        setIsLoading(false);
+      });
+  }, []);
 
   const handleAddTodo = (title: string) => {
     const newTodo = {
@@ -19,16 +31,23 @@ function App() {
       completed: false,
     };
 
-    setTodos([...todos, newTodo]);
+    if (todos) {
+      setTodos([...todos, newTodo]);
+    } else {
+      setTodos([newTodo]);
+    }
   };
 
   const handleDeleteTodo = (id: number) => {
+    if (!todos) return;
+
     const updatedTodo = todos.filter((todo) => todo.id !== id);
 
     setTodos(updatedTodo);
   };
 
   const handleCompleteTodo = (id: number) => {
+    if (!todos) return;
     const updatedTodo = todos.map((todo) => {
       if (todo.id === id) {
         return {
@@ -44,14 +63,19 @@ function App() {
   };
 
   return (
-    <div className="container">
+    <>
       <TodoForm handleAddTodo={handleAddTodo} />
-      <TodoList
-        todoList={todos}
-        handleDeleteTodo={handleDeleteTodo}
-        handleCompleteTodo={handleCompleteTodo}
-      />
-    </div>
+
+      {!isLoading ? (
+        <TodoList
+          todoList={todos}
+          handleDeleteTodo={handleDeleteTodo}
+          handleCompleteTodo={handleCompleteTodo}
+        />
+      ) : (
+        <div>Loading</div>
+      )}
+    </>
   );
 }
 

@@ -43,13 +43,9 @@
   @include buttonStyle();
 }
 
-.todo-list {
-  font-size: 50px;
-}
-
 .todo-item-li {
   background-color: #f4f4f4;
-  font-size: 30px;
+  font-size: 2rem;
   display: flex;
   justify-content: space-between;
   margin: 5px;
@@ -71,4 +67,8 @@
 
 .todo-item--completed {
   text-decoration: line-through red;
+}
+
+.todo-details {
+  font-size: 2rem;
 }

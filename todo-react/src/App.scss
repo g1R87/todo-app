@@ -7,9 +7,15 @@
   border-radius: 5px;
 }
 
-html,
-body {
+html {
   font-size: 62%;
 }
 
+body {
+  font-size: 1.6rem;
+}
+
+.icon {
+  height: 2rem;
+}
 @import 'components/todoStyles';

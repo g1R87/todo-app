@@ -1,4 +1,7 @@
+import { Link } from 'react-router-dom';
 import { Todo } from '../App';
+
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 
 interface TodoProps {
   todo: Todo;
@@ -17,13 +20,23 @@ const TodoItem = (props: TodoProps) => {
 
   return (
     <li className="todo-item-li">
-      {props.todo.completed ? (
-        <span className="todo-item todo-item--completed">
-          {props.todo.title}
-        </span>
-      ) : (
-        <span className="todo-item">{props.todo.title}</span>
-      )}
+      <Link to={`/todo/${props.todo.id}`}>
+        {props.todo.completed ? (
+          <span className="todo-item todo-item--completed">
+            <span>
+              <XCircleIcon className="icon" />
+            </span>
+            {props.todo.title}
+          </span>
+        ) : (
+          <span className="todo-item">
+            <span>
+              <CheckCircleIcon className="icon" />
+            </span>
+            {props.todo.title}
+          </span>
+        )}
+      </Link>
       <div>
         <button onClick={handleComplete} className="completed-btn">
           Complete
