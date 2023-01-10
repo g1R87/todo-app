@@ -10,7 +10,7 @@ export interface Todo {
 }
 
 function App() {
-  const [todo, setTodo] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
 
   const handleAddTodo = (title: string) => {
     const newTodo = {
@@ -19,33 +19,35 @@ function App() {
       completed: false,
     };
 
-    setTodo([...todo, newTodo]);
+    setTodos([...todos, newTodo]);
   };
 
   const handleDeleteTodo = (id: number) => {
-    const updatedTodo = todo.filter((todo) => todo.id !== id);
+    const updatedTodo = todos.filter((todo) => todo.id !== id);
 
-    setTodo(updatedTodo);
+    setTodos(updatedTodo);
   };
 
   const handleCompleteTodo = (id: number) => {
-    const updatedTodo = todo.map((todo) => {
+    const updatedTodo = todos.map((todo) => {
       if (todo.id === id) {
         return {
           ...todo,
           completed: !todo.completed,
         };
       }
+
+      return todo;
     });
 
-    setTodo(updatedTodo as Todo[]);
+    setTodos(updatedTodo as Todo[]);
   };
 
   return (
     <div className="container">
       <TodoForm handleAddTodo={handleAddTodo} />
       <TodoList
-        todoList={todo}
+        todoList={todos}
         handleDeleteTodo={handleDeleteTodo}
         handleCompleteTodo={handleCompleteTodo}
       />
