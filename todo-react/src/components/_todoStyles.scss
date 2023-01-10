@@ -1,0 +1,74 @@
+@mixin buttonStyle {
+  border: none;
+  height: 30px;
+  width: 70px;
+}
+
+.todo-text-field {
+  label {
+    font-size: 3rem;
+    display: block;
+    font-weight: bold;
+  }
+  input {
+    width: 100%;
+    height: 40px;
+    font-size: 1.8rem;
+    padding: 0.5rem;
+    margin: 10px 0;
+  }
+}
+
+.todo-form button {
+  display: inline-block;
+  background-color: black;
+  color: white;
+  font-weight: 600;
+  font-size: 1.6rem;
+  padding: 7px 20px;
+  margin: 10px 0;
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.del-btn {
+  background: red;
+  color: white;
+  @include buttonStyle();
+}
+
+.completed-btn {
+  background-color: lightgreen;
+  @include buttonStyle();
+}
+
+.todo-list {
+  font-size: 50px;
+}
+
+.todo-item-li {
+  background-color: #f4f4f4;
+  font-size: 30px;
+  display: flex;
+  justify-content: space-between;
+  margin: 5px;
+  padding: 10px 20px;
+
+  button {
+    margin: 10px;
+    padding: 5px;
+    border-radius: 5px;
+  }
+  button:active {
+    transform: scale(0.9);
+  }
+}
+
+.todo-item {
+  overflow: auto;
+}
+
+.todo-item--completed {
+  text-decoration: line-through red;
+}

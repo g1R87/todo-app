@@ -16,7 +16,7 @@ const TodoItem = (props: TodoProps) => {
   };
 
   return (
-    <li>
+    <li className="todo-item-li">
       {props.todo.completed ? (
         <span className="todo-item todo-item--completed">
           {props.todo.title}
@@ -24,9 +24,14 @@ const TodoItem = (props: TodoProps) => {
       ) : (
         <span className="todo-item">{props.todo.title}</span>
       )}
-
-      <button onClick={handleComplete}>Complete</button>
-      <button onClick={handleDelete}>Delete</button>
+      <div>
+        <button onClick={handleComplete} className="completed-btn">
+          Complete
+        </button>
+        <button onClick={handleDelete} className="del-btn">
+          Delete
+        </button>
+      </div>
     </li>
   );
 };
