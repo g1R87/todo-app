@@ -33,12 +33,14 @@
 }
 
 .del-btn {
+  display: block;
   background: red;
   color: white;
   @include buttonStyle();
 }
 
 .completed-btn {
+  display: block;
   background-color: lightgreen;
   @include buttonStyle();
 }
@@ -63,6 +65,17 @@
 
 .todo-item {
   overflow: auto;
+}
+
+.link {
+  text-decoration: none;
+  color: black;
+  .check {
+    color: rgb(31, 222, 31);
+  }
+  .cross {
+    color: lightcoral;
+  }
 }
 
 .todo-item--completed {

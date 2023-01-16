@@ -20,18 +20,18 @@ const TodoItem = (props: TodoProps) => {
 
   return (
     <li className="todo-item-li">
-      <Link to={`/todo/${props.todo.id}`}>
+      <Link className="link" to={`/todo/${props.todo.id}`}>
         {props.todo.completed ? (
           <span className="todo-item todo-item--completed">
             <span>
-              <XCircleIcon className="icon" />
+              <CheckCircleIcon className="icon check" />
             </span>
             {props.todo.title}
           </span>
         ) : (
           <span className="todo-item">
             <span>
-              <CheckCircleIcon className="icon" />
+              <XCircleIcon className="icon cross" />
             </span>
             {props.todo.title}
           </span>

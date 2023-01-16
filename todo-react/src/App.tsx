@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './App.scss';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
@@ -62,8 +63,17 @@ function App() {
     setTodos(updatedTodo as Todo[]);
   };
 
+  //login
+
+  //create
+
   return (
     <>
+      <Link to={`/login`}>
+        <button className="main-btn">
+          <span>Login/Signup</span>
+        </button>
+      </Link>
       <TodoForm handleAddTodo={handleAddTodo} />
 
       {!isLoading ? (
