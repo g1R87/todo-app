@@ -1,14 +1,22 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { login } from '../service/auth';
+import * as localStorage from '../utils/localStorage';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const onSubmit = (event: React.SyntheticEvent) => {
+  const navigate = useNavigate();
+
+  const onSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
-    alert('Loggin in!');
-    //setState
+    const userData = await login({ email, password });
+    console.log(userData);
+
+    localStorage.set('authdata', userData.payload);
+    navigate('/');
+    console.log(userData);
   };
 
   return (

@@ -1,19 +1,35 @@
 import { useState } from 'react';
+import { createUser } from '../service/auth';
 
 function Signup() {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const onSubmit = (event: React.SyntheticEvent) => {
+  const onSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
     if (password !== confirmPassword) return alert('Passwords does not match!');
-    alert('sign up!');
-    //setState
+    const userData = await createUser({
+      name,
+      email,
+      password,
+      confirmPassword,
+    });
+    console.log(userData);
   };
   return (
     <div>
       <form className="page-form signup" onSubmit={onSubmit}>
+        <input
+          type="text"
+          placeholder="Name"
+          required
+          value={name}
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+        />
         <input
           type="email"
           placeholder="Email"
