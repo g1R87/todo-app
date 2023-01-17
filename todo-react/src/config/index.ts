@@ -5,4 +5,7 @@ export const urls = {
     login: `${baseUrl}/auth/login`,
     signup: `${baseUrl}/user`,
   },
+  todo: {
+    todo: `${baseUrl}/todo`,
+  },
 };

@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/authContext';
 import { login } from '../service/auth';
 import * as localStorage from '../utils/localStorage';
 
@@ -8,15 +9,17 @@ function Login() {
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
+  const authContext = useContext(AuthContext);
 
   const onSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
     const userData = await login({ email, password });
-    console.log(userData);
 
     localStorage.set('authdata', userData.payload);
+
+    authContext?.setAuth(userData.payload);
+
     navigate('/');
-    console.log(userData);
   };
 
   return (

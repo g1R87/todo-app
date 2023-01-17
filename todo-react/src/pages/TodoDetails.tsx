@@ -11,12 +11,11 @@ const TodoDetails = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    fetch(`https://jsonplaceholder.typicode.com/todos/${params.id}`)
-      .then((response) => response.json())
-      .then((json) => {
-        setTodo(json);
-        setIsLoading(false);
-      });
+    const fetchAllTodos = async () => {
+      const allTodos = await fetchAllTodos();
+
+      console.log(allTodos);
+    };
   }, []);
 
   return (

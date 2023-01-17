@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './App.scss';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
+import { AuthContext } from './context/authContext';
+import { getAllTodos } from './service/todo';
 
 export interface Todo {
   id: number;
@@ -14,15 +16,28 @@ function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const authContext = useContext(AuthContext);
+  const navigate = useNavigate();
+
   useEffect(() => {
+    if (!authContext?.auth.accessToken) {
+      navigate('/login');
+      return;
+    }
+
     setIsLoading(true);
 
-    fetch('https://jsonplaceholder.typicode.com/todos')
-      .then((response) => response.json())
-      .then((json) => {
-        setTodos(json);
-        setIsLoading(false);
+    const fetchAllTodos = async () => {
+      const data = await getAllTodos({
+        headers: `Bearer ${authContext?.auth.accessToken}`,
       });
+
+      console.log(data);
+
+      setTodos(data.payload);
+    };
+
+    fetchAllTodos();
   }, []);
 
   const handleAddTodo = (title: string) => {

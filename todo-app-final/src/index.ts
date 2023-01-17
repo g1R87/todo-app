@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import { HttpError } from 'http-errors';
+import cors from 'cors';
 import express, { Request, Response, NextFunction } from 'express';
 
 import mainRouter from './routes/index';
@@ -8,6 +9,7 @@ import { logger } from './utils/logger';
 import notFound from './middlewares/notFound.middleware';
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.use('/api/v1', mainRouter);

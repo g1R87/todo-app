@@ -18,6 +18,7 @@ const instance = axios.create({
  * @returns {Observable}
  */
 export function get(url: string, { params = {}, headers = {} } = {}) {
+  console.log(headers);
   return instance({
     url,
     params,
