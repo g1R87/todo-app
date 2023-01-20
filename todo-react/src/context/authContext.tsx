@@ -1,7 +1,7 @@
 import { createContext, useState } from 'react';
 
 export const AuthContext = createContext<null | {
-  setAuth: (authData: any) => void;
+  setAuthData: (authData: any) => void;
   auth: {
     accessToken: string;
     refreshToken: string;
@@ -14,14 +14,14 @@ export const AuthContext = createContext<null | {
 const AuthContextProvider: React.FC<{ children: React.ReactNode }> = (
   props
 ) => {
-  const [auth, setAuth] = useState<any>({});
-
+  const userPayload = JSON.parse(localStorage.getItem('authdata') || '{}');
+  const [auth, setAuth] = useState<any>(userPayload);
   const setAuthData = (authData: any) => {
     setAuth(authData);
   };
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth: setAuthData }}>
+    <AuthContext.Provider value={{ auth, setAuthData }}>
       {props.children}
     </AuthContext.Provider>
   );

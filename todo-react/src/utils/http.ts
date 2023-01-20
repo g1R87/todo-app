@@ -17,8 +17,7 @@ const instance = axios.create({
  * access-token header
  * @returns {Observable}
  */
-export function get(url: string, { params = {}, headers = {} } = {}) {
-  console.log(headers);
+export async function get(url: string, { params = {}, headers = {} } = {}) {
   return instance({
     url,
     params,
@@ -39,7 +38,7 @@ export function get(url: string, { params = {}, headers = {} } = {}) {
  * access-token header
  * @returns {Observable}
  */
-export function post(
+export async function post(
   url: string,
   { params = {}, body = {}, headers = {} } = {}
 ) {
@@ -63,7 +62,7 @@ export function post(
  * access-token header
  * @returns {Observable}
  */
-export function put(
+export async function put(
   url: string,
   { params = {}, body = {}, headers = {} } = {}
 ) {
@@ -85,8 +84,8 @@ export function put(
  * access-token header
  * @returns {Observable}
  */
-export function remove(url: string, { params = {} } = {}) {
-  const headers = {};
+export async function remove(url: string, { params = {}, headers = {} } = {}) {
+  // const headers = {};
 
   return instance({
     url,

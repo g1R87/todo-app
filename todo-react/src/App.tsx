@@ -4,12 +4,15 @@ import './App.scss';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 import { AuthContext } from './context/authContext';
-import { getAllTodos } from './service/todo';
+import { deleteTodos, getAllTodos } from './service/todo';
+
+import Axios from 'axios';
 
 export interface Todo {
   id: number;
-  title: string;
+  task: string;
   completed: boolean;
+  dueDate: string;
 }
 
 function App() {
@@ -20,25 +23,27 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!authContext?.auth.accessToken) {
-      navigate('/login');
-      return;
-    }
-
     setIsLoading(true);
+
+    setTimeout(() => {
+      if (JSON.stringify(authContext?.auth) === '{}') {
+        navigate('/login');
+        return;
+      }
+    }, 5000);
 
     const fetchAllTodos = async () => {
       const data = await getAllTodos({
-        headers: `Bearer ${authContext?.auth.accessToken}`,
+        headers: {
+          authorization: `Bearer ${authContext?.auth.accessToken}`,
+        },
       });
-
-      console.log(data);
-
       setTodos(data.payload);
     };
 
     fetchAllTodos();
-  }, []);
+    setIsLoading(false);
+  }, [authContext?.auth]);
 
   const handleAddTodo = (title: string) => {
     const newTodo = {
@@ -57,9 +62,28 @@ function App() {
   const handleDeleteTodo = (id: number) => {
     if (!todos) return;
 
-    const updatedTodo = todos.filter((todo) => todo.id !== id);
+    // const updatedTodo = todos.filter((todo) => todo.id !== id);
 
-    setTodos(updatedTodo);
+    // setTodos(updatedTodo);
+    const deleteAtodo = async () => {
+      await deleteTodos(
+        {
+          headers: {
+            authorization: `Bearer ${authContext?.auth.accessToken}`,
+          },
+        },
+        id
+      );
+
+      const data = await getAllTodos({
+        headers: {
+          authorization: `Bearer ${authContext?.auth.accessToken}`,
+        },
+      });
+      setTodos(data.payload);
+    };
+
+    deleteAtodo();
   };
 
   const handleCompleteTodo = (id: number) => {
@@ -77,10 +101,6 @@ function App() {
 
     setTodos(updatedTodo as Todo[]);
   };
-
-  //login
-
-  //create
 
   return (
     <>

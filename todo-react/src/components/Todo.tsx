@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Todo } from '../App';
 
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
+import { Typography } from '@mui/material';
 
 interface TodoProps {
   todo: Todo;
@@ -18,6 +19,11 @@ const TodoItem = (props: TodoProps) => {
     props.handleCompleteTodo(props.todo.id);
   };
 
+  const date = new Date();
+  const due = Math.floor(
+    (Date.parse(props.todo.dueDate) - Date.parse(date.toString())) / 86_400_000
+  );
+
   return (
     <li className="todo-item-li">
       <Link className="link" to={`/todo/${props.todo.id}`}>
@@ -26,14 +32,17 @@ const TodoItem = (props: TodoProps) => {
             <span>
               <CheckCircleIcon className="icon check" />
             </span>
-            {props.todo.title}
+            {props.todo.task}
           </span>
         ) : (
           <span className="todo-item">
             <span>
               <XCircleIcon className="icon cross" />
             </span>
-            {props.todo.title}
+            <span>
+              <span> {props.todo.task} </span>
+              <Typography>{due < 0 ? 'overdue' : `${due} days`}</Typography>
+            </span>
           </span>
         )}
       </Link>

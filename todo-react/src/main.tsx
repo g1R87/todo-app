@@ -4,10 +4,12 @@ import App from './App';
 import './index.css';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import TodoDetails from './pages/TodoDetails';
+import AuthContextProvider from './context/authContext';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import AuthContextProvider from './context/authContext';
+import TodoDetails from './pages/TodoDetails';
+
+//remove-later
 
 const router = createBrowserRouter([
   {

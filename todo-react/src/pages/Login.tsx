@@ -1,3 +1,4 @@
+import Axios from 'axios';
 import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/authContext';
@@ -17,7 +18,7 @@ function Login() {
 
     localStorage.set('authdata', userData.payload);
 
-    authContext?.setAuth(userData.payload);
+    authContext?.setAuthData(userData.payload);
 
     navigate('/');
   };

@@ -20,7 +20,7 @@ const TodoDetails = () => {
 
   return (
     <div className="todo-details">
-      {isLoading ? <p>Loading...</p> : <p>{todo?.title}</p>}
+      {isLoading ? <p>Loading...</p> : <p>{todo?.task}</p>}
     </div>
   );
 };
