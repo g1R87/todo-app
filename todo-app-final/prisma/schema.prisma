@@ -4,8 +4,7 @@ generator client {
 
 datasource db {
     provider = "postgresql"
-    //url      = env("DATABASE_URL")
-    url      = "postgresql://prashant:password@localhost:5432/todoapp"
+    url      = env("DATABASE_URL")
 }
 
 model User {

@@ -14,6 +14,7 @@ app.use(express.json());
 
 app.use('/api/v1', mainRouter);
 
+
 app.use((err: HttpError, _req: Request, res: Response, _next: NextFunction) => {
   logger.error(err.message);
 

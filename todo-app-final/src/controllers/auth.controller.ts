@@ -1,12 +1,12 @@
-import createHttpError from 'http-errors';
 import { NextFunction, Request, Response } from 'express';
+import createHttpError from 'http-errors';
 
 import { config } from '../config/default';
 
 import { getUserByEmail } from '../service/user.service';
 
-import { verifyPassword } from '../utils/passwords';
 import { createToken, verifyToken } from '../utils/jwt';
+import { verifyPassword } from '../utils/passwords';
 import { createSuccessfulResponse } from '../utils/response';
 
 export const login = async (
@@ -15,6 +15,7 @@ export const login = async (
   next: NextFunction
 ) => {
   try {
+    console.log(req.body);
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -38,7 +39,7 @@ export const login = async (
       userWithoutPassword,
       config.accessTokenKey,
       {
-        expiresIn: '5m',
+        expiresIn: '30m',
       }
     );
 
@@ -46,7 +47,7 @@ export const login = async (
       userWithoutPassword,
       config.refreshTokenKey,
       {
-        expiresIn: '30m',
+        expiresIn: '60m',
       }
     );
 

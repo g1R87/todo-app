@@ -1,5 +1,5 @@
-import createError from 'http-errors';
 import { NextFunction, Request, Response } from 'express';
+import createError from 'http-errors';
 
 import { config } from '../config/default';
 
@@ -22,13 +22,17 @@ export const validateUserRequest = (
 
 export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
   try {
+    console.log(req.body);
     const token = req.headers.authorization?.split(' ')[1];
-
+    console.log(' token: ', token);
     if (!token) throw 'error';
 
     const user = verifyToken(token, config.accessTokenKey);
-
+    //test
+    console.log('verifie: ', user);
     res.locals.user = user;
+    //test2
+    console.log('local: ', res.locals.user);
 
     next();
   } catch (error: any) {
